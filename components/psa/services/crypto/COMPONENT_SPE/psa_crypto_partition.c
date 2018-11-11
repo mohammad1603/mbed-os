@@ -4,6 +4,7 @@
 #include "spm/psa_defs.h"
 #include "spm/spm_client.h"
 
+#define USE_REAL_CRYPTO_STRUCT
 #include "crypto_spe.h"
 #include "crypto_platform_spe.h"
 #include "psa_psa_f_partition.h"

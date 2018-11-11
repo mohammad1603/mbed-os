@@ -59,7 +59,6 @@ extern "C" {
 #define psa_key_derivation  psa_sec_key_derivation
 #define psa_generator_abort  psa_sec_generator_abort
 
-#include "crypto_struct_spe.h"
 #include "crypto.h"
 
 #ifdef __cplusplus
