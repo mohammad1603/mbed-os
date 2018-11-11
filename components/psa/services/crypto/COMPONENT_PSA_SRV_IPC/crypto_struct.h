@@ -24,8 +24,8 @@
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
 
-#ifndef PSA_CRYPTO_STRUCT_A_H
-#define PSA_CRYPTO_STRUCT_A_H
+#ifndef PSA_CRYPTO_STRUCT_H
+#define PSA_CRYPTO_STRUCT_H
 
 struct psa_hash_operation_s
 {
@@ -66,4 +66,4 @@ struct psa_key_policy_s
 
 #define PSA_CRYPTO_GENERATOR_INIT { PSA_NULL_HANDLE }
 
-#endif /* PSA_CRYPTO_STRUCT_A_H */
+#endif /* PSA_CRYPTO_STRUCT_H */

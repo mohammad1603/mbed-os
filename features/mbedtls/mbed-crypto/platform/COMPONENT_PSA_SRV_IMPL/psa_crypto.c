@@ -37,7 +37,7 @@
  * PSA_CRYPTO_SECURE means that this file is compiled to the SPE side.
  * some headers will be affected by this flag.
  */
-#define PSA_CRYPTO_SECURE 1
+#if defined(COMPONENT_SPE)
 #include "crypto_spe.h"
 #endif
 

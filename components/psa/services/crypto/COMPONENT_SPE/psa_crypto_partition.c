@@ -4,7 +4,6 @@
 #include "spm/psa_defs.h"
 #include "spm/spm_client.h"
 
-#define PSA_CRYPTO_SECURE 1
 #include "crypto_spe.h"
 #include "crypto_platform_spe.h"
 #include "psa_psa_f_partition.h"
