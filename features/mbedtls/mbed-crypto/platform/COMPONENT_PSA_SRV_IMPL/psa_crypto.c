@@ -38,6 +38,7 @@
  * some headers will be affected by this flag.
  */
 #if defined(COMPONENT_SPE)
+#define USE_REAL_CRYPTO_STRUCT
 #include "crypto_spe.h"
 #endif
 
