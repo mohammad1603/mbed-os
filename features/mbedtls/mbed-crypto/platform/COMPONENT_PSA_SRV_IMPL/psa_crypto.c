@@ -40,7 +40,8 @@
 #if defined(COMPONENT_SPE)
 #define USE_REAL_CRYPTO_STRUCT
 #include "crypto_spe.h"
-#endif
+#endif // defined(COMPONENT_SPE)
+#endif // defined(MBEDTLS_PSA_CRYPTO_SPM)
 
 #include "psa/crypto.h"
 
