@@ -83,7 +83,6 @@
 #define MBEDTLS_X509_CRT_PARSE_C
 #define MBEDTLS_X509_CRL_PARSE_C
 #define MBEDTLS_CMAC_C
-#define MBEDTLS_PSA_CRYPTO_C
 
 /* Miscellaneous options */
 #define MBEDTLS_AES_ROM_TABLES
