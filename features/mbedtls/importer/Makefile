@@ -39,7 +39,7 @@ TARGET_SRC:=$(TARGET_PREFIX)src
 TARGET_INC:=$(TARGET_PREFIX)inc
 TARGET_TESTS:=$(TARGET_PREFIX)TESTS
 TARGET_SRV_IMPL:=$(TARGET_PREFIX_CRYPTO)/platform/COMPONENT_PSA_SRV_IMPL
-TARGET_PSA_SPE:=$(TARGET_PREFIX_CRYPTO)/platform/COMPONENT_PSA_SPE
+TARGET_SPE:=$(TARGET_PREFIX_CRYPTO)/platform/COMPONENT_SPE
 TARGETS_PSA_ACCELARATION:=$(TARGET_PREFIX_CRYPTO)/targets
 COMPONENT_NSPE:=$(TARGET_SRV_IMPL)/COMPONENT_NSPE
 
@@ -78,20 +78,17 @@ rsync:
 	#
 	# Copying mbed Crypto into mbed library..
 	rm -rf $(TARGET_SRV_IMPL)
-	rm -rf $(TARGET_PSA_SPE)
+	rm -rf $(TARGET_SPE)
 	rm -rf $(TARGETS_PSA_ACCELARATION)
 
 	mkdir -p $(TARGET_SRV_IMPL)
-	mkdir -p $(TARGET_PSA_SPE)
+	mkdir -p $(TARGET_SPE)
 	mkdir -p $(COMPONENT_NSPE)
 	mkdir -p $(TARGETS_PSA_ACCELARATION)
 
 	rsync -a --delete --exclude='crypto_struct.h' $(MBED_CRYPTO_API) $(TARGET_INC)
-	rsync -avz --delete $(MBED_CRYPTO_API)/../mbedtls/config.h $(TARGET_INC)/mbedtls
-	rsync -avz --delete $(MBED_CRYPTO_API)/../mbedtls/rsa.h $(TARGET_INC)/mbedtls
-	rsync -avz --delete $(MBED_CRYPTO_DIR)/library/rsa.c $(TARGET_SRC)
 	rsync -avz $(MBED_CRYPTO_API)/crypto_struct.h $(COMPONENT_NSPE)
-	rsync -avz $(MBED_CRYPTO_API)/crypto_struct.h $(TARGET_PSA_SPE)/crypto_struct_spe.h
+	rsync -avz $(MBED_CRYPTO_API)/crypto_struct.h $(TARGET_SPE)/crypto_struct_spe.h
 	rsync -avz $(MBED_CRYPTO_DIR)/library/psa_crypto.c $(TARGET_SRV_IMPL)
 
 deploy: rsync
@@ -151,4 +148,4 @@ clean:
 	rm -rf $(MBED_CRYPTO_DIR)
 	rm -f $(TARGET_PREFIX_CRYPTO)VERSION.txt
 	rm -rf $(TARGET_SRV_IMPL)
-	rm -rf $(TARGET_PSA_SPE)
+	rm -rf $(TARGET_SPE)
