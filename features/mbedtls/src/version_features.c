@@ -339,6 +339,9 @@ static const char *features[] = {
 #if defined(MBEDTLS_ECP_NIST_OPTIM)
     "MBEDTLS_ECP_NIST_OPTIM",
 #endif /* MBEDTLS_ECP_NIST_OPTIM */
+#if defined(MBEDTLS_ECP_RESTARTABLE)
+    "MBEDTLS_ECP_RESTARTABLE",
+#endif /* MBEDTLS_ECP_RESTARTABLE */
 #if defined(MBEDTLS_ECDSA_DETERMINISTIC)
     "MBEDTLS_ECDSA_DETERMINISTIC",
 #endif /* MBEDTLS_ECDSA_DETERMINISTIC */
@@ -678,6 +681,9 @@ static const char *features[] = {
 #if defined(MBEDTLS_POLY1305_C)
     "MBEDTLS_POLY1305_C",
 #endif /* MBEDTLS_POLY1305_C */
+#if defined(MBEDTLS_PSA_CRYPTO_C)
+    "MBEDTLS_PSA_CRYPTO_C",
+#endif /* MBEDTLS_PSA_CRYPTO_C */
 #if defined(MBEDTLS_RIPEMD160_C)
     "MBEDTLS_RIPEMD160_C",
 #endif /* MBEDTLS_RIPEMD160_C */
