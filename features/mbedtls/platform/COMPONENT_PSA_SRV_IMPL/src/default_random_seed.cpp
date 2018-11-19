@@ -5,7 +5,14 @@
 
 int mbed_default_seed_read(unsigned char *buf, size_t buf_len)
 {
-    psa_its_status_t rc = psa_its_get(MBED_RANDOM_SEED_ITS_UID, 0, buf_len, buf);
+    struct psa_its_info_t info = {0, 0};
+    size_t actual_size = buf_len;
+    psa_its_get_info(MBED_RANDOM_SEED_ITS_UID, &info);
+    if (info.size < buf_len)
+    {
+        actual_size = info.size;
+    }
+    psa_its_status_t rc = psa_its_get(MBED_RANDOM_SEED_ITS_UID, 0, actual_size, buf);
     /* Make sure that in case of an error the value will be negative
      * Mbed TLS errors are negative values */
     rc  = rc < 0 ? rc : (-1 * rc);
