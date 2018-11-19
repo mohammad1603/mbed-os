@@ -564,7 +564,7 @@
  *
  * Enable Counter Block Cipher mode (CTR) for symmetric ciphers.
  */
-//#define MBEDTLS_CIPHER_MODE_CTR
+#define MBEDTLS_CIPHER_MODE_CTR
 
 /**
  * \def MBEDTLS_CIPHER_MODE_OFB
@@ -2623,7 +2623,7 @@
  * Requires: MBEDTLS_CTR_DRBG_C, MBEDTLS_ENTROPY_C
  *
  */
-//#define MBEDTLS_PSA_CRYPTO_C
+#define MBEDTLS_PSA_CRYPTO_C
 
 /**
  * \def MBEDTLS_RIPEMD160_C
