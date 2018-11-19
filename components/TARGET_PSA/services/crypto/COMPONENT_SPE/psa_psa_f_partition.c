@@ -28,6 +28,7 @@
 #include "spm_internal.h"
 #include "psa_psa_f_partition.h"
 #include "psa_psa_f_ifs.h"
+#include "psa_its_ifs.h"
 
 
 /* Threads stacks */
@@ -184,6 +185,13 @@ spm_rot_service_t psa_f_rot_services[PSA_F_ROT_SRV_COUNT] = {
     },
 };
 
+/* External SIDs used by PSA_F */
+const uint32_t psa_f_external_sids[4] = {
+    PSA_ITS_GET,
+    PSA_ITS_SET,
+    PSA_ITS_INFO,
+    PSA_ITS_REMOVE,
+};
 
 static osRtxMutex_t psa_f_mutex = {0};
 static const osMutexAttr_t psa_f_mutex_attr = {

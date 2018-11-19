@@ -28,6 +28,7 @@
 #include "psa_its_partition.h"
 #include "psa_psa_f_partition.h"
 
+extern const uint32_t psa_f_external_sids[4];
 
 __attribute__((weak))
 spm_partition_t g_partitions[2] = {
@@ -49,7 +50,7 @@ spm_partition_t g_partitions[2] = {
         .flags_interrupts = 0,
         .rot_services = NULL,
         .rot_services_count = PSA_F_ROT_SRV_COUNT,
-        .extern_sids = NULL,
+        .extern_sids = psa_f_external_sids,
         .extern_sids_count = PSA_F_EXT_ROT_SRV_COUNT,
         .irq_mapper = NULL,
     },

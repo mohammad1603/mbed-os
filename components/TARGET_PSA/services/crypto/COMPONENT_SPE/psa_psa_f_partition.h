@@ -27,7 +27,7 @@
 #define PSA_F_ID 35
 
 #define PSA_F_ROT_SRV_COUNT (11UL)
-#define PSA_F_EXT_ROT_SRV_COUNT (0UL)
+#define PSA_F_EXT_ROT_SRV_COUNT (4UL)
 
 /* PSA_F event flags */
 #define PSA_F_RESERVED1_POS (1UL)

@@ -96,6 +96,12 @@
       "minor_policy": "STRICT"
     }
   ],
+  "extern_sids": [
+    "PSA_ITS_GET",
+    "PSA_ITS_SET",
+    "PSA_ITS_INFO",
+    "PSA_ITS_REMOVE"
+  ],
   "source_files": [
     "COMPONENT_SPE/psa_crypto_partition.c"
   ]

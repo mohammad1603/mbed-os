@@ -31,6 +31,7 @@
 #include "psa_psa_f_partition.h"
 
 extern const uint32_t server_test_part1_external_sids[2];
+extern const uint32_t psa_f_external_sids[4];
 
 spm_partition_t g_partitions[4] = {
     {
@@ -73,7 +74,7 @@ spm_partition_t g_partitions[4] = {
         .flags_interrupts = 0,
         .rot_services = NULL,
         .rot_services_count = PSA_F_ROT_SRV_COUNT,
-        .extern_sids = NULL,
+        .extern_sids = psa_f_external_sids,
         .extern_sids_count = PSA_F_EXT_ROT_SRV_COUNT,
         .irq_mapper = NULL,
     },
