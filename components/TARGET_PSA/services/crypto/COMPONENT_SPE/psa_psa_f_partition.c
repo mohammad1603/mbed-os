@@ -1,4 +1,6 @@
-/* Copyright (c) 2017 ARM Limited
+/* Copyright (c) 2017-2018 ARM Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,6 +161,18 @@ spm_rot_service_t psa_f_rot_services[PSA_F_ROT_SRV_COUNT] = {
     {
         .sid = PSA_GENERATOR_ID,
         .mask = PSA_GENERATOR,
+        .partition = NULL,
+        .min_version = 1,
+        .min_version_policy = PSA_MINOR_VERSION_POLICY_STRICT,
+        .allow_nspe = true,
+        .queue = {
+            .head = NULL,
+            .tail = NULL
+        }
+    },
+    {
+        .sid = PSA_ENTROPY_ID,
+        .mask = PSA_ENTROPY_INJECT,
         .partition = NULL,
         .min_version = 1,
         .min_version_policy = PSA_MINOR_VERSION_POLICY_STRICT,

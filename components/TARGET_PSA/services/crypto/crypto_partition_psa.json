@@ -86,6 +86,14 @@
       "non_secure_clients": true,
       "minor_version": 1,
       "minor_policy": "STRICT"
+    },
+    {
+      "name": "PSA_ENTROPY_ID",
+      "identifier": "0x00000F0A",
+      "signal": "PSA_ENTROPY_INJECT",
+      "non_secure_clients": true,
+      "minor_version": 1,
+      "minor_policy": "STRICT"
     }
   ],
   "source_files": [

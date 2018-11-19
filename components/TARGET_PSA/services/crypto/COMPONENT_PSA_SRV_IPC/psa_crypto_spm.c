@@ -19,6 +19,7 @@
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
 
+#if defined(MBEDTLS_PSA_CRYPTO_C)
 #include <stdlib.h>
 #include <string.h>
 #include "psa_psa_f_ifs.h"
@@ -917,7 +918,30 @@ psa_status_t psa_generate_random( uint8_t *output,
     return( ( psa_status_t ) err_call );
 }
 
+#if defined(MBEDTLS_ENTROPY_NV_SEED)
+/****************************************************************/
+/* PSA_ENTROPY_INJECT */
+/****************************************************************/
 
+psa_status_t mbedtls_psa_inject_entropy( const unsigned char *seed,
+                                         size_t seed_size )
+{
+    psa_error_t err_call;
+    psa_handle_t handle = PSA_NULL_HANDLE;
+    psa_invec_t in_vec = { seed, seed_size };
+
+    handle = psa_connect( PSA_ENTROPY_ID, MINOR_VER );
+    if( handle <= 0 )
+        return ( PSA_ERROR_COMMUNICATION_FAILURE );
+
+    err_call = psa_call( handle, &in_vec, 1, NULL, 0 );
+    psa_close( handle );
+    if( err_call < 0 )
+        err_call = ( psa_error_t ) PSA_ERROR_COMMUNICATION_FAILURE;
+
+    return( ( psa_status_t ) err_call );
+}
+#endif
 /****************************************************************/
 /* PSA Generator */
 /****************************************************************/
@@ -1204,3 +1228,5 @@ void mbedtls_psa_crypto_free( void )
     psa_call( handle, NULL, 0, NULL, 0 );
     psa_close( handle );
 }
+
+#endif /* MBEDTLS_PSA_CRYPTO_C */
