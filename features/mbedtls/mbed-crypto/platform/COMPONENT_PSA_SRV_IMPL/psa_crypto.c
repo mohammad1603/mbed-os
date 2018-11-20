@@ -3517,7 +3517,6 @@ psa_status_t mbedtls_psa_inject_entropy( const unsigned char *seed,
 {
     psa_status_t status;
     struct psa_its_info_t p_info;
-    fprintf(stderr, "mbedtls_psa_inject_entropy::seed size %d\r\n", seed_size);
     if( global_data.initialized )
         return( PSA_ERROR_NOT_PERMITTED );
     if( ( seed_size < MBEDTLS_ENTROPY_MIN_PLATFORM ) || ( seed_size > MBEDTLS_ENTROPY_MAX_SEED_SIZE ) )
@@ -3667,7 +3666,6 @@ void mbedtls_psa_crypto_free( void )
     mbedtls_zeroize( &global_data, sizeof( global_data ) );
 }
 
-#include "psa_prot_internal_storage.h"
 psa_status_t psa_crypto_init( void )
 {
     int ret;
@@ -3684,7 +3682,6 @@ psa_status_t psa_crypto_init( void )
                                  mbedtls_entropy_func,
                                  &global_data.entropy,
                                  drbg_seed, sizeof( drbg_seed ) - 1 );
-    fprintf(stderr, "After mbedtls_ctr_drbg_seed ret: %d\n", ret);
     if( ret != 0 )
         goto exit;
 

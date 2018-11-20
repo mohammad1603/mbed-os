@@ -35,7 +35,7 @@ extern "C" {
 #endif
 
 /* UID for secure storage seed */
-#define MBED_RANDOM_SEED_ITS_UID 0x08381017
+#define MBED_RANDOM_SEED_ITS_UID 0xFFFFFF52
 
 /**
  * \brief Library deinitialization.

@@ -163,6 +163,10 @@ void mbedtls_rsa_init( mbedtls_rsa_context *ctx,
                        int padding,
                        int hash_id);
 
+
+size_t mbedtls_rsa_get_bitlen( const mbedtls_rsa_context *ctx );
+
+
 /**
  * \brief          This function imports a set of core parameters into an
  *                 RSA context.
