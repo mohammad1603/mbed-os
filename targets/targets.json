@@ -7461,7 +7461,7 @@
         "inherits": ["SPE_Target", "FUTURE_SEQUANA_M0"],
         "components_add": ["SPM_MAILBOX", "FLASHIAP"],
         "extra_labels_add": ["PSA"],
-        "macros_add": ["PSOC6_DYNSRM_DISABLE=1", "MBEDTLS_PSA_CRYPTO_SPM"],
+        "macros_add": ["PSOC6_DYNSRM_DISABLE=1", "MBEDTLS_PSA_CRYPTO_SPM", "MBEDTLS_PSA_HAS_ITS_IO", "MBEDTLS_ENTROPY_NV_SEED", "MBEDTLS_PLATFORM_NV_SEED_READ_MACRO=mbed_default_seed_read", "MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO=mbed_default_seed_write", "MBEDTLS_PSA_CRYPTO_C" ],
         "deliver_to_target": "FUTURE_SEQUANA_PSA",
         "overrides": {
             "secure-rom-start": "0x10000000",
@@ -7482,7 +7482,7 @@
         "extra_labels_add": ["PSA"],
         "extra_labels_remove": ["CORDIO"],
         "components_add": ["SPM_MAILBOX"],
-        "macros_add": ["PSOC6_DYNSRM_DISABLE=1"],
+        "macros_add": ["PSOC6_DYNSRM_DISABLE=1", "MBEDTLS_PSA_HAS_ITS_IO", "MBEDTLS_ENTROPY_NV_SEED", "MBEDTLS_PLATFORM_NV_SEED_READ_MACRO=mbed_default_seed_read", "MBEDTLS_PLATFORM_NV_SEED_WRITE_MACRO=mbed_default_seed_write"],
         "overrides": {
             "secure-rom-start": "0x10000000",
             "secure-rom-size": "0x80000",
