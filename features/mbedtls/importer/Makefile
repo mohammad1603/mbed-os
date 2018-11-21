@@ -30,7 +30,7 @@
 MBED_TLS_RELEASE ?= mbedtls-2.13.1
 
 # Set the mbed Crypto tag to import (this can/should be edited before import)
-MBED_CRYPTO_RELEASE ?= mbedcrypto-0.1.0a+driver
+MBED_CRYPTO_RELEASE ?= entropy-inject
 
 # Translate between mbed TLS namespace and mbed namespace
 TARGET_PREFIX:=../
@@ -50,7 +50,7 @@ MBED_TLS_API:=$(MBED_TLS_DIR)/include/mbedtls
 MBED_TLS_GIT_CFG=$(MBED_TLS_DIR)/.git/config
 
 # mbed Crypto directory - hidden from mbed via TARGET_IGNORE
-MBED_CRYPTO_URL:=git@github.com:ARMmbed/mbedtls-psa.git
+MBED_CRYPTO_URL:=git@github.com:netanelgonen/mbedtls-psa.git
 MBED_CRYPTO_DIR:=TARGET_IGNORE/mbedcrypto
 MBED_CRYPTO_API:=$(MBED_CRYPTO_DIR)/include/psa
 MBED_CRYPTO_GIT_CFG=$(MBED_CRYPTO_DIR)/.git/config
