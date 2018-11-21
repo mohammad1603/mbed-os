@@ -33,6 +33,14 @@ using namespace utest::v1;
 
 uint8_t seed[MBEDTLS_ENTROPY_MAX_SEED_SIZE+2] = {0};
 
+/* MAX value support macro */
+#if !defined(MAX)
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#endif
+
+/* Calculating the minimum allowed entropy size in bytes */
+#define MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE MAX(MBEDTLS_ENTROPY_MIN_PLATFORM, MBEDTLS_ENTROPY_BLOCK_SIZE)
+
 void validate_entropy_seed_injection( int seed_length_a,
                                       int expected_status_a,
                                       int seed_length_b,
@@ -56,15 +64,15 @@ void run_entropy_inject_with_crypto_init( )
     psa_status_t status;
     status = psa_crypto_init();
     TEST_ASSERT( status == PSA_ERROR_INSUFFICIENT_ENTROPY );
-    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_ENTROPY_MIN_PLATFORM );
+    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE );
     TEST_ASSERT( status == PSA_SUCCESS );
     status = psa_crypto_init();
     TEST_ASSERT( status == PSA_SUCCESS );
-    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_ENTROPY_MIN_PLATFORM );
+    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE );
     TEST_ASSERT( status == PSA_ERROR_NOT_PERMITTED );
     mbedtls_psa_crypto_free( );
     /* The seed is written by nv_seed callback functions therefore the injection will fail */
-    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_ENTROPY_MIN_PLATFORM );
+    status = mbedtls_psa_inject_entropy( seed, MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE );
     TEST_ASSERT( status == PSA_ERROR_NOT_PERMITTED );
 }
 
@@ -82,7 +90,7 @@ static void injection_small_good()
 #if (MBEDTLS_ENTROPY_MIN_PLATFORM > MBEDTLS_ENTROPY_BLOCK_SIZE)
     validate_entropy_seed_injection( MBEDTLS_ENTROPY_MIN_PLATFORM, PSA_SUCCESS, MBEDTLS_ENTROPY_MIN_PLATFORM, PSA_ERROR_NOT_PERMITTED);
 #else
-    validate_entropy_seed_injection( MBEDTLS_ENTROPY_BLOCK_SIZE, PSA_SUCCESS, MBEDTLS_ENTROPY_BLOCK_SIZE, PSA_ERROR_NOT_PERMITTED);
+    validate_entropy_seed_injection( MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE, PSA_SUCCESS, MBEDTLS_PSA_INJECT_ENTROPY_MIN_SIZE, PSA_ERROR_NOT_PERMITTED);
 #endif
 }
 
