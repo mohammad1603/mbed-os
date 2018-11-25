@@ -17,9 +17,9 @@
 #define mbedtls_free   free
 #endif
 // ------------------------- Globals ---------------------------
-static psa_spm_init_refence_counter = 0;
+static uint8_t psa_spm_init_refence_counter = 0;
 
-typede f struct {
+typedef struct {
     psa_key_slot_t key_slot;
     int32_t owner_pid;
 } spm_crpyto_key_slot_t;
@@ -44,7 +44,7 @@ static psa_status_t insert_key_into_spm_slot(psa_handle_t handle, psa_key_slot_t
 
 static psa_status_t check_spm_key_acl(psa_handle_t handle, psa_key_slot_t key_slot) 
 {
-    uint32_t current_pid = psa_identity(handle);
+    int32_t current_pid = psa_identity(handle);
     
     for (uint32_t i=0; i < sizeof(spm_key_slots) / sizeof(spm_key_slots[0]); i++) {
         if ((spm_key_slots[i].key_slot == key_slot) &&
@@ -57,7 +57,7 @@ static psa_status_t check_spm_key_acl(psa_handle_t handle, psa_key_slot_t key_sl
 
 static void free_spm_key_slot(psa_handle_t handle, psa_key_slot_t key_slot) 
 {
-    uint32_t current_pid = psa_identity(handle);
+    int32_t current_pid = psa_identity(handle);
     
     for (uint32_t i=0; i < sizeof(spm_key_slots) / sizeof(spm_key_slots[0]); i++) {
         if ((spm_key_slots[i].key_slot == key_slot) &&
@@ -181,7 +181,7 @@ static void psa_mac_operation( void )
                 case PSA_MAC_SIGN_SETUP:
                 {
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         status = psa_mac_sign_setup( msg.rhandle,
                                                      psa_crypto.key,
                                                      psa_crypto.alg );
@@ -192,7 +192,7 @@ static void psa_mac_operation( void )
                 case PSA_MAC_VERIFY_SETUP:
                 {
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {                    
+                    if (status == PSA_SUCCESS) {
                         status = psa_mac_verify_setup( msg.rhandle,
                                                        psa_crypto.key,
                                                        psa_crypto.alg );
@@ -524,7 +524,7 @@ static void psa_asymmetric_operation( void )
                         SPM_PANIC("SPM read length mismatch");
                     }
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {                    
+                    if (status == PSA_SUCCESS) {
                         status = psa_asymmetric_sign( psa_crypto.key,
                                                       psa_crypto.alg,
                                                       hash,
@@ -572,7 +572,7 @@ static void psa_asymmetric_operation( void )
                         SPM_PANIC("SPM read length mismatch");
                     }
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         status = psa_asymmetric_verify( psa_crypto.key,
                                                         psa_crypto.alg,
                                                         hash,
@@ -617,7 +617,7 @@ static void psa_asymmetric_operation( void )
                         break;
                     }
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         if( psa_crypto.func == PSA_ASYMMETRIC_ENCRYPT )
                             status = psa_asymmetric_encrypt( psa_crypto.key,
                                                              psa_crypto.alg,
@@ -726,7 +726,7 @@ static void psa_aead_operation()
                         break;
                     }
                     status = check_spm_key_acl(msg.handle, psa_crypto.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         if( psa_crypto.func == PSA_AEAD_ENCRYPT )
                             status = psa_aead_encrypt( psa_crypto.key,
                                                        psa_crypto.alg,
@@ -820,7 +820,7 @@ static void psa_symmetric_operation( void )
                 case PSA_CIPHER_ENCRYPT_SETUP:
                 {
                     status = check_spm_key_acl(msg.handle, psa_crypto_ipc.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         status = psa_cipher_encrypt_setup( msg.rhandle,
                                                            psa_crypto_ipc.key,
                                                            psa_crypto_ipc.alg );
@@ -830,7 +830,7 @@ static void psa_symmetric_operation( void )
                 case PSA_CIPHER_DECRYPT_SETUP:
                 {
                     status = check_spm_key_acl(msg.handle, psa_crypto_ipc.key);
-                    if (staus == PSA_SUCCESS) {                    
+                    if (status == PSA_SUCCESS) {
                         status = psa_cipher_decrypt_setup( msg.rhandle,
                                                            psa_crypto_ipc.key,
                                                            psa_crypto_ipc.alg );
@@ -1002,7 +1002,7 @@ static void psa_key_management_operation( void )
                         size_t lifetime_length = msg.out_size[0];
                         psa_key_lifetime_t lifetime;
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_get_key_lifetime( psa_key_mng.key,
                                                            &lifetime );
                         }
@@ -1025,7 +1025,7 @@ static void psa_key_management_operation( void )
                             SPM_PANIC("SPM read length mismatch");
                         }
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {                        
+                        if (status == PSA_SUCCESS) {
                             status = psa_set_key_lifetime( psa_key_mng.key, lifetime );
                         }
                         break;
@@ -1042,7 +1042,7 @@ static void psa_key_management_operation( void )
                             SPM_PANIC("SPM read length mismatch");
                         }
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_set_key_policy(psa_key_mng.key, &policy);
                         }
                         break;
@@ -1052,7 +1052,7 @@ static void psa_key_management_operation( void )
                         size_t policy_size = msg.out_size[0];
                         psa_key_policy_t policy;
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_get_key_policy( psa_key_mng.key, &policy );
                         }
                         if( status == PSA_SUCCESS )
@@ -1077,11 +1077,11 @@ static void psa_key_management_operation( void )
                             SPM_PANIC("SPM read length mismatch");
                         }
                         status = insert_key_into_spm_slot(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_import_key( psa_key_mng.key,
                                                      psa_key_mng.type,
                                                      key, key_length );
-                            if (staus != PSA_SUCCESS) {
+                            if (status != PSA_SUCCESS) {
                                 free_spm_key_slot(msg.handle, psa_key_mng.key);
                             }
                         }
@@ -1091,9 +1091,9 @@ static void psa_key_management_operation( void )
                     case PSA_DESTROY_KEY:
                     {
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_destroy_key( psa_key_mng.key );
-                            if (staus == PSA_SUCCESS) {
+                            if (status == PSA_SUCCESS) {
                                 free_spm_key_slot(msg.handle, psa_key_mng.key);
                             }                            
                         }
@@ -1104,7 +1104,7 @@ static void psa_key_management_operation( void )
                         psa_key_type_t type;
                         size_t bits;
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_get_key_information( psa_key_mng.key,
                                                               &type, &bits );
                         }
@@ -1129,7 +1129,7 @@ static void psa_key_management_operation( void )
                             break;
                         }
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_export_key( psa_key_mng.key, key,
                                                      key_length, &data_length );
                         }
@@ -1152,7 +1152,7 @@ static void psa_key_management_operation( void )
                             break;
                         }
                         status = check_spm_key_acl(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_export_public_key( psa_key_mng.key, key,
                                                             key_length, &data_length );
                         }
@@ -1196,12 +1196,12 @@ static void psa_key_management_operation( void )
                             }
                         }
                         status = insert_key_into_spm_slot(msg.handle, psa_key_mng.key);
-                        if (staus == PSA_SUCCESS) {
+                        if (status == PSA_SUCCESS) {
                             status = psa_generate_key( psa_key_mng.key,
                                                        psa_key_mng.type,
                                                        bits,
                                                        parameter, parameter_size );
-                            if (staus != PSA_SUCCESS) {
+                            if (status != PSA_SUCCESS) {
                                 free_spm_key_slot(msg.handle, psa_key_mng.key);
                             }
                         }
@@ -1419,10 +1419,10 @@ void psa_crypto_generator_operations( void )
                         SPM_PANIC("SPM read length mismatch");
                     }
                     status = insert_key_into_spm_slot(msg.handle, psa_crypto_ipc.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         status = psa_generator_import_key( psa_crypto_ipc.key, type,
                                                            bits, msg.rhandle );
-                        if (staus != PSA_SUCCESS) {
+                        if (status != PSA_SUCCESS) {
                             free_spm_key_slot(msg.handle, psa_crypto_ipc.key);
                         }
                     }
@@ -1466,7 +1466,7 @@ void psa_crypto_generator_operations( void )
                     }
 
                     status = check_spm_key_acl(msg.handle, psa_crypto_ipc.key);
-                    if (staus == PSA_SUCCESS) {
+                    if (status == PSA_SUCCESS) {
                         status = psa_key_derivation( msg.rhandle, psa_crypto_ipc.key,
                                                      psa_crypto_ipc.alg,
                                                      salt,
@@ -1507,7 +1507,6 @@ void psa_crypto_generator_operations( void )
 void part_main(void *ptr)
 {
     uint32_t signals = 0;
-    psa_status_t status = PSA_SUCCESS;
 
     while (1) {
         signals = psa_wait_any( PSA_BLOCK );
